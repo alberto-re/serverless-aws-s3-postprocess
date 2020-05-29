@@ -1,0 +1,45 @@
+service: aws-s3-xls-parse
+
+# This plugin takes care of shipping dependencies
+# found in the requirements.txt file automatically
+plugins:
+  - serverless-python-requirements
+
+custom:
+  bucket_name: <S3_BUCKET_NAME>
+  topic_arn: <SNS_TOPIC_ARN>
+
+provider:
+  name: aws
+  runtime: python3.8
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'sns:Publish'
+      Resource:
+        - ${self:custom.topic_arn}
+    - Effect: 'Allow'
+      Action:
+        - 's3:GetObject'
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:s3:::'
+            - ${self:custom.bucket_name}
+            - '/*'
+
+stage: dev
+region: us-west-2
+
+functions:
+  postprocess:
+    handler: handler.postprocess
+    environment:
+      BUCKET_NAME: ${self:custom.bucket_name}
+      TOPIC_ARN: ${self:custom.topic_arn}
+    events:
+      - s3:
+          bucket: ${self:custom.bucket_name}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .xls

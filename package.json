@@ -1,0 +1,20 @@
+{
+  "name": "aws-s3-xls-parse",
+  "version": "0.1.0",
+  "description": "This example demonstrates how to postprocess Excel files uploaded to S3 using the Serverless Framework",
+  "author": "Alberto Re <alberto.re@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alberto-re/serverless-aws-s3-postprocess.git"
+  },
+  "keywords": [
+    "python",
+    "aws",
+    "lambda",
+    "serverless"
+  ],
+  "dependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
