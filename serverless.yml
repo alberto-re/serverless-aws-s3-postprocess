@@ -12,6 +12,8 @@ custom:
 provider:
   name: aws
   runtime: python3.8
+  stage: dev
+  region: us-west-2
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
@@ -27,9 +29,6 @@ provider:
           - - 'arn:aws:s3:::'
             - ${self:custom.bucket_name}
             - '/*'
-
-stage: dev
-region: us-west-2
 
 functions:
   postprocess:
